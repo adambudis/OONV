@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OONV;
+using System;
 
 namespace MyApp // Note: actual namespace depends on the project name.
 {
@@ -6,7 +7,7 @@ namespace MyApp // Note: actual namespace depends on the project name.
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            GameWorld.getInstance().StartGame();
         }
     }
 }
