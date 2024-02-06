@@ -8,11 +8,13 @@ using System.Xml.Linq;
 
 namespace OONV
 {
-    internal class Hero : Character
+    internal class Hero : Character, IHeroObservable
     {
         public string? Name { get; set; }
 
         public IHeroState? CurrentState { get; set; }
+
+        public List<IHeroObserver> Observers { get; set; }
 
 
         public int Energy { get; set; }
@@ -26,6 +28,7 @@ namespace OONV
             MaxEnergy = maxEnergy;
             Xp = 0;
             CurrentState = new IdleState(this);
+            Observers = new List<IHeroObserver>();
         }
 
 
@@ -33,6 +36,7 @@ namespace OONV
         public void SetState(IHeroState state)
         {
             CurrentState = state;
+            Notify(CurrentState);
         }
 
         public void Rest()
@@ -59,6 +63,7 @@ namespace OONV
             {
                 Hp = 0;
                 SetState(new DeadState(this));
+                Unsubscribe(GameWorld.GetInstance());
                 Console.WriteLine("Hero has died.");
             }
         }
@@ -91,6 +96,26 @@ namespace OONV
             Console.WriteLine($"Defense: {Defense}");
             Console.WriteLine($"Energy: {Energy}/{MaxEnergy}");
             Console.WriteLine($"Xp: {Xp}");
+        }
+
+
+        // Observer 
+        public void Subscribe(IHeroObserver observer)
+        {
+            Observers.Add(observer);
+        }
+
+        public void Unsubscribe(IHeroObserver observer)
+        {
+            Observers.Remove(observer);
+        }
+
+        public void Notify(IHeroState state)
+        {
+            foreach(var observer in Observers)
+            {
+                observer.Update(state);
+            }
         }
     }
 }

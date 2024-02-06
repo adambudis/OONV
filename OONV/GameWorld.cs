@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace OONV
 {
-    public class GameWorld
+    internal class GameWorld : IHeroObserver
     {
         private static GameWorld? instance;
 
         private GameWorld() { }
 
-        public static GameWorld getInstance()
+        public static GameWorld GetInstance()
         {
             if (instance == null)
             {
@@ -24,6 +24,7 @@ namespace OONV
         public void StartGame()
         {
             Hero hero = new Hero("Hrdina", 100, 8, 9);
+            hero.Subscribe(this);
 
             while (true)
             {
@@ -39,5 +40,11 @@ namespace OONV
                     hero.Train();
             }
         }
+
+        public void Update(IHeroState state)
+        {
+            Console.WriteLine($"(Observer) Hero's state changed to: {state.GetType()}");
+        }
+
     }
 }
