@@ -22,7 +22,7 @@ namespace OONV
         public void Rest()
         {
             Console.WriteLine("Gained 5 hp and 10 energy from resting");
-            Context.Heal(5);
+            Context.Heal(8);
             Context.GainEnergy(10);
 
             if (Context.Energy >= 20)

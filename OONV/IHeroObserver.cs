@@ -8,7 +8,6 @@ namespace OONV
 {
     internal interface IHeroObserver
     {
-        // nebo string mgs 
         void Update(IHeroState state);
     }
 }

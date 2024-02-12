@@ -10,7 +10,6 @@ namespace OONV
     {
         void Subscribe(IHeroObserver observer);
         void Unsubscribe(IHeroObserver observer);
-        // nebo string msg
         void Notify(IHeroState state);
     }
 }

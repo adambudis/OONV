@@ -20,7 +20,8 @@ namespace OONV
         public void Explore()
         {
             Context.ConsumeEnergy(10);
-            Context.TakeDamage(DamageTaken());
+            int dmgTaken = DamageTaken();
+            Context.TakeDamage(dmgTaken);
 
             if (Context.CurrentState is DeadState)
             {
@@ -28,8 +29,10 @@ namespace OONV
                 return;
             }
 
-            Context.Xp += ExpGained();
+            int xpGained = ExpGained();
+            Context.Xp += xpGained;
             Context.DisplayStats();
+            Console.WriteLine($"Taken {dmgTaken} damage and gaind {xpGained} experience.");
 
             if (Context.Energy < 20)
             {
@@ -56,7 +59,7 @@ namespace OONV
             Context.Attack += att;
             Context.Defense += def;
 
-            Console.WriteLine($"Hero has trained and gained {att} attack and {def} defense points.");
+            Console.WriteLine($"Gained {att} attack and {def} defense points.");
             Console.WriteLine($"Energy cost: {energyCost}");
             Context.DisplayStats();
 
