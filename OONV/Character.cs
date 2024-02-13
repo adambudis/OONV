@@ -21,6 +21,6 @@ namespace OONV
             Defense = defense;
         }
 
-        public virtual void DisplayStats() { }
+        public abstract void DisplayStats();
     }
 }

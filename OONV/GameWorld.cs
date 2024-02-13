@@ -1,6 +1,7 @@
 ﻿using MyApp;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace OONV
 {
+    // TODO: lepší explore, enemy v arene (duel), další state
     internal class GameWorld : IHeroObserver
     {
         private static GameWorld? instance;
@@ -23,15 +25,17 @@ namespace OONV
             return instance;
         }
 
-
         public void StartGame()
         {
             Console.Clear();
 
-            Hero hero = new Hero("Hrdina", 100, 8, 9);
+            Hero hero = new Hero("Hrdina", 100, 5, 4);
             hero.Subscribe(this);
+            Console.WriteLine("Stats");
+            hero.DisplayStats();
+            Console.WriteLine("---------------------------");
 
-            while (hero.CurrentState is not DeadState)
+            while (true)
             {
                 Console.WriteLine("Enter command: ");
                 string? command = Console.ReadLine();
@@ -44,34 +48,21 @@ namespace OONV
                 if (command == "train")
                     hero.Train();
 
+
+                if (command == "restart")
+                    Restart();
+
+                if (command == "quit")
+                    Quit();
+
                 Console.WriteLine("---------------------------");
             }
-
-            ProcessRestartQuit();
         }
 
         public void Update(IHeroState state)
         {
             Console.WriteLine($"(Observer) Hero's state changed to: {state.GetType().Name}");
-
-            if (state is not DeadState)
-                Console.WriteLine($"Valid commands: {GetValidCommands(state)}");
-        }
-
-        private void ProcessRestartQuit()
-        {
-            Console.WriteLine("Do you wish to restart the game? Type y/n");
-            string? restart = Console.ReadLine();
-            while (restart != "y" || restart != "n")
-            {
-                if (restart == "y")
-                    Restart();
-                else
-                    Quit();
-
-                Console.WriteLine("Do you wish to restart or quit the game?");
-                restart = Console.ReadLine();
-            }
+            Console.WriteLine($"Valid commands: {GetValidCommands(state)}");
         }
 
         private string GetValidCommands(IHeroState state)
@@ -81,6 +72,8 @@ namespace OONV
                 s += "'explore', 'rest', 'train'";
             if (state is ExhaustedState)
                 s += "'rest'";
+            if (state is DeadState)
+                s += "'restart', 'quit'";
             return s;
         }
 
@@ -93,6 +86,5 @@ namespace OONV
         {
             Environment.Exit(0);
         }
-
     }
 }

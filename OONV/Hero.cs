@@ -10,9 +10,9 @@ namespace OONV
 {
     internal class Hero : Character, IHeroObservable
     {
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
-        public IHeroState? CurrentState { get; set; }
+        public IHeroState CurrentState { get; set; }
 
         public List<IHeroObserver> Observers { get; set; }
 
@@ -41,17 +41,17 @@ namespace OONV
 
         public void Rest()
         {
-            CurrentState?.Rest();
+            CurrentState.Rest();
         }
 
         public void Explore()
         {
-            CurrentState?.Explore();
+            CurrentState.Explore();
         }
 
         public void Train()
         {
-            CurrentState?.Train();
+            CurrentState.Train();
         }
 
 

@@ -31,8 +31,8 @@ namespace OONV
 
             int xpGained = ExpGained();
             Context.Xp += xpGained;
+            Console.WriteLine($"Taken {dmgTaken} damage and gained {xpGained} experience.");
             Context.DisplayStats();
-            Console.WriteLine($"Taken {dmgTaken} damage and gaind {xpGained} experience.");
 
             if (Context.Energy < 20)
             {
@@ -53,7 +53,7 @@ namespace OONV
         {
             int att = rand.Next(1, 10);
             int def = rand.Next(1, 10);
-            int energyCost = 7;
+            int energyCost = 15;
 
             Context.ConsumeEnergy(energyCost);
             Context.Attack += att;
@@ -82,7 +82,7 @@ namespace OONV
 
         private int ExpGained()
         {
-            return rand.Next(8, 15);
+            return rand.Next(12, 18);
         }
     }
 }
